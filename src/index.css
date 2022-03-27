@@ -2,3 +2,13 @@
 root {
   box-sizing: border-box;
 }
+
+body {
+  background-color: #2f4858;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
