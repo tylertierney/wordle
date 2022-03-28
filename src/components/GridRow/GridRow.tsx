@@ -20,7 +20,6 @@ const GridRow: React.FC<GridRowProps> = ({ word, checkLetterValues }) => {
     if (checkLetterValues && wordAsArr[idx]) {
       bgColor = getLetterValue(wordAsArr[idx], targetWord, idx);
     }
-    console.log(checkLetterValues);
     return (
       <Tile
         key={idx}

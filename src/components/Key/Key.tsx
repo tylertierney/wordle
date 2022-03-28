@@ -2,23 +2,15 @@ import { useGame } from "../../context/gameContext";
 import styles from "./Key.module.css";
 import CSS from "csstype";
 import { getLetterValue } from "../../utils/utils";
+import { useEffect } from "react";
 
 interface KeyProps {
   name: string | JSX.Element;
-  currentGuess: string;
-  setCurrentGuess: Function | null;
+  handleClick: (name: string | JSX.Element) => void;
   disabled: boolean;
 }
 
-const Key: React.FC<KeyProps> = ({
-  name,
-  currentGuess,
-  setCurrentGuess,
-  disabled,
-}) => {
-  const { addGuess, disabledLetters, addDisabledLetters, targetWord } =
-    useGame();
-
+const Key: React.FC<KeyProps> = ({ name, handleClick, disabled }) => {
   let styleProps: CSS.Properties = {};
   if (typeof name != "string" || name === "ENT") {
     styleProps.padding = "10px 15px";
@@ -29,29 +21,6 @@ const Key: React.FC<KeyProps> = ({
     styleProps.opacity = 1;
     styleProps.cursor = "default";
   }
-
-  const handleClick = (name: string | JSX.Element) => {
-    if (!setCurrentGuess) return;
-    if (typeof name === "string") {
-      if (name === "ENT") {
-        addGuess(currentGuess);
-        for (let i = 0; i < currentGuess.length; i++) {
-          if (getLetterValue(currentGuess[i], targetWord, i) === "#273640") {
-            addDisabledLetters(currentGuess[i]);
-          }
-        }
-        setCurrentGuess("");
-      } else {
-        if (currentGuess.length > 4) {
-          return;
-        }
-        setCurrentGuess((currentGuess += name));
-      }
-    } else {
-      const result = currentGuess.slice(0, -1);
-      setCurrentGuess(result);
-    }
-  };
 
   return (
     <button
