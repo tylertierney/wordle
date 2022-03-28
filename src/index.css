@@ -1,19 +1,26 @@
-*,
-root {
+* {
   box-sizing: border-box;
   --mediumWhite: rgba(255, 255, 255, 0.704);
   --darkWhite: rgba(255, 255, 255, 0.6);
+  --greenTile: #86c95d;
+  --yellowTile: #d7d761;
+  --bodyBlue: #2f4858;
+  --darkerBlue: #273640;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   transition: 0.05s ease-in-out;
 }
 
+:root,
+#root,
+#app {
+  height: 100%;
+}
+
 body {
-  background-color: #2f4858;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: var(--bodyBlue);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  margin: 0;
 }

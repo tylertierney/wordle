@@ -11,14 +11,21 @@ const GameGrid: React.FC<GameGridProps> = ({ currentGuess }) => {
 
   let rows = new Array(6).fill(null);
   const currentGuessRowIdx = guesses.length;
+  let checkLetterValues = true;
 
   rows = rows.map((row: null, idx: number) => {
     let wordToUse = guesses[idx];
-    let checkLetterValues = true;
     if (idx === currentGuessRowIdx) {
       wordToUse = currentGuess;
+      checkLetterValues = false;
     }
-    return <GridRow key={idx} word={wordToUse} />;
+    return (
+      <GridRow
+        key={idx}
+        word={wordToUse}
+        checkLetterValues={checkLetterValues}
+      />
+    );
   });
 
   return <div className={styles.gridContainer}>{rows}</div>;

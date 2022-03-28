@@ -1,67 +1,63 @@
 import Key from "../Key/Key";
 import styles from "./Keyboard.module.css";
 import { MdOutlineBackspace } from "react-icons/md";
-import { IconType } from "react-icons";
+import { useGame } from "../../context/gameContext";
 
 interface KeyboardProps {
   currentGuess: string;
-  setCurrentGuess: (currentGuess: string) => void;
+  setCurrentGuess: Function | null;
 }
 
 const Keyboard: React.FC<KeyboardProps> = ({
   currentGuess,
   setCurrentGuess,
 }) => {
+  const { disabledLetters } = useGame();
   const alphabet = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
     ["Z", "X", "C", "V", "B", "N", "M"],
   ];
 
-  return (
-    <div className={styles.keyboardContainer}>
-      <div className={styles.keyboardRow}>
-        {alphabet[0].map((key, idx) => (
+  let rowsArr = alphabet.map((row, idx) => {
+    return (
+      <div className={styles.keyboardRow} key={idx}>
+        {idx === 2 && (
           <Key
-            key={idx}
-            name={key}
+            name="ENT"
             currentGuess={currentGuess}
             setCurrentGuess={setCurrentGuess}
+            disabled={false}
           />
-        ))}
-      </div>
-      <div className={styles.keyboardRow}>
-        {alphabet[1].map((key, idx) => (
+        )}
+        {row.map((key, index) => {
+          let disabled = false;
+          if (disabledLetters.has(key)) {
+            disabled = true;
+          }
+          return (
+            <Key
+              key={index}
+              name={key}
+              currentGuess={currentGuess}
+              setCurrentGuess={setCurrentGuess}
+              disabled={disabled}
+            />
+          );
+        })}
+        {idx === 2 && (
           <Key
-            key={idx}
-            name={key}
+            name={<MdOutlineBackspace />}
             currentGuess={currentGuess}
             setCurrentGuess={setCurrentGuess}
+            disabled={false}
           />
-        ))}
+        )}
       </div>
-      <div className={styles.keyboardRow}>
-        <Key
-          name="ENT"
-          currentGuess={currentGuess}
-          setCurrentGuess={setCurrentGuess}
-        />
-        {alphabet[2].map((key, idx) => (
-          <Key
-            key={idx}
-            name={key}
-            currentGuess={currentGuess}
-            setCurrentGuess={setCurrentGuess}
-          />
-        ))}
-        <Key
-          name={<MdOutlineBackspace />}
-          currentGuess={currentGuess}
-          setCurrentGuess={setCurrentGuess}
-        />
-      </div>
-    </div>
-  );
+    );
+  });
+
+  return <div className={styles.keyboardContainer}>{rowsArr}</div>;
 };
 
 export default Keyboard;

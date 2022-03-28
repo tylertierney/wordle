@@ -1,22 +1,23 @@
 import { useContext, createContext, useEffect, useState } from "react";
+import { Set } from "typescript";
 import { words } from "../dictionary/words-of-the-day";
 
 interface ContextInterface {
   targetWord: string;
   guesses: string[];
-  updateGuesses: (
-    type: "addLetter" | "removeLetter" | "confirmGuess",
-    newGuess: string
-  ) => void;
+  addGuess: (newGuess: string) => void;
+  gameIsActive: boolean;
+  disabledLetters: Set<string>;
+  addDisabledLetters: (letter: string) => void;
 }
 
 const initial: ContextInterface = {
   targetWord: "",
   guesses: [],
-  updateGuesses: (
-    type: "addLetter" | "removeLetter" | "confirmGuess",
-    newLetter: string
-  ) => null,
+  addGuess: (newGuess: string) => null,
+  gameIsActive: true,
+  disabledLetters: new Set([]),
+  addDisabledLetters: (letter: string) => null,
 };
 
 export const GameContext = createContext(initial);
@@ -24,6 +25,10 @@ export const GameContext = createContext(initial);
 const GameProvider = ({ children }: any) => {
   const [targetWord, setTargetWord] = useState("");
   const [guesses, setGuesses] = useState<string[]>([]);
+  const [gameIsActive, setGameIsActive] = useState(true);
+  const [disabledLetters, setDisabledLetters] = useState<Set<string>>(
+    new Set([])
+  );
 
   useEffect(() => {
     const possibleWords = words.split("\n");
@@ -32,24 +37,28 @@ const GameProvider = ({ children }: any) => {
     setTargetWord(targetWord);
   }, []);
 
-  const updateGuesses = (
-    type: "addLetter" | "removeLetter" | "confirmGuess",
-    newGuess: string
-  ) => {
+  const addGuess = (newGuess: string) => {
     let copyOfGuesses = [...guesses];
-    switch (type) {
-      case "confirmGuess":
-        copyOfGuesses.push(newGuess);
-        break;
+    copyOfGuesses.push(newGuess);
+    if (newGuess === targetWord.toUpperCase()) {
+      setGameIsActive(false);
     }
-    console.log(copyOfGuesses);
     setGuesses(copyOfGuesses);
+  };
+
+  const addDisabledLetters = (letter: string) => {
+    let copyOfDisabledLetters = disabledLetters;
+    copyOfDisabledLetters.add(letter);
+    setDisabledLetters(copyOfDisabledLetters);
   };
 
   const ctx: ContextInterface = {
     targetWord,
     guesses,
-    updateGuesses,
+    addGuess,
+    gameIsActive,
+    disabledLetters,
+    addDisabledLetters,
   };
 
   return <GameContext.Provider value={ctx}>{children}</GameContext.Provider>;
