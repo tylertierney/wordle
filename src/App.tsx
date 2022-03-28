@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="App">
-      <GameGrid />
+      <GameGrid currentGuess={currentGuess} />
       <Keyboard currentGuess={currentGuess} setCurrentGuess={setCurrentGuess} />
     </div>
   );

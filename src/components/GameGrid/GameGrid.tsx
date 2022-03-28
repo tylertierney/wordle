@@ -2,21 +2,26 @@ import { useGame } from "../../context/gameContext";
 import GridRow from "../GridRow/GridRow";
 import styles from "./GameGrid.module.css";
 
-const GameGrid: React.FC = () => {
-  const { selectedWord } = useGame();
+interface GameGridProps {
+  currentGuess: string;
+}
 
-  console.log(selectedWord);
+const GameGrid: React.FC<GameGridProps> = ({ currentGuess }) => {
+  const { targetWord, guesses } = useGame();
 
-  return (
-    <div className={styles.gridContainer}>
-      <GridRow word="" />
-      <GridRow word="" />
-      <GridRow word="" />
-      <GridRow word="" />
-      <GridRow word="" />
-      <GridRow word="" />
-    </div>
-  );
+  let rows = new Array(6).fill(null);
+  const currentGuessRowIdx = guesses.length;
+
+  rows = rows.map((row: null, idx: number) => {
+    let wordToUse = guesses[idx];
+    let checkLetterValues = true;
+    if (idx === currentGuessRowIdx) {
+      wordToUse = currentGuess;
+    }
+    return <GridRow key={idx} word={wordToUse} />;
+  });
+
+  return <div className={styles.gridContainer}>{rows}</div>;
 };
 
 export default GameGrid;

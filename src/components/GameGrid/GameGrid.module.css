@@ -1,4 +1,8 @@
 .gridContainer {
-  border-top: solid rgba(255, 255, 255, 0.704) 2px;
-  border-left: solid rgba(255, 255, 255, 0.704) 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 1rem 0;
 }

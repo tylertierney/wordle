@@ -1,0 +1,23 @@
+.keyBtn {
+  background-color: var(--mediumWhite);
+  border: none;
+  border-radius: 6px;
+  font-size: 1.3rem;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+}
+
+.keyBtn:active {
+  background-color: var(--darkWhite);
+}
+
+@media only screen and (max-width: 600px) {
+  .keyBtn {
+    width: auto;
+    font-size: 1rem;
+  }
+}
