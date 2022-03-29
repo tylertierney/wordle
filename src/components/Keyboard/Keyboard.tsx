@@ -40,11 +40,14 @@ const Keyboard: React.FC<KeyboardProps> = ({
     window.addEventListener("keydown", handleKeydown);
 
     return () => window.removeEventListener("keydown", handleKeydown);
-  }, []);
+  }, [currentGuess]);
 
   const handleClick = (name: string | JSX.Element) => {
     if (typeof name === "string") {
       if (name === "ENT") {
+        if (currentGuess.length < 5) {
+          return;
+        }
         addGuess(currentGuess);
         for (let i = 0; i < currentGuess.length; i++) {
           if (
@@ -54,7 +57,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
             addDisabledLetters(currentGuess[i]);
           }
         }
-        setCurrentGuess(() => "");
+        setCurrentGuess("");
       } else {
         if (currentGuess.length > 4) {
           return;
@@ -98,12 +101,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
     );
   });
 
-  return (
-    <div className={styles.keyboardContainer}>
-      <button onClick={() => console.log(guesses)}>test</button>
-      {rowsArr}
-    </div>
-  );
+  return <div className={styles.keyboardContainer}>{rowsArr}</div>;
 };
 
 export default Keyboard;
