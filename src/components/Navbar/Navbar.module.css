@@ -9,8 +9,9 @@
   align-items: center;
 }
 
-.navContainer > h3 {
+.title {
   font-family: "Roboto Slab", serif;
   font-size: 1.8rem;
   color: white;
+  user-select: none;
 }

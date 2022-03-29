@@ -14,7 +14,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
   currentGuess,
   setCurrentGuess,
 }) => {
-  const { disabledLetters, addDisabledLetters, addGuess, targetWord } =
+  const { disabledLetters, addDisabledLetters, addGuess, targetWord, guesses } =
     useGame();
   const alphabet = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -25,23 +25,24 @@ const Keyboard: React.FC<KeyboardProps> = ({
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
       const uppercaseKey = e.key.toUpperCase();
+      if (disabledLetters.has(uppercaseKey)) {
+        return;
+      }
       if (uppercaseKey === "ENTER") {
         handleClick("ENT");
       } else if (uppercaseKey === "BACKSPACE") {
         handleClick(<p></p>);
       } else if (uppercaseKey >= "A" && uppercaseKey <= "Z") {
         handleClick(uppercaseKey);
-        // console.log(currentGuess);
       }
     };
 
-    document.addEventListener("keydown", handleKeydown);
+    window.addEventListener("keydown", handleKeydown);
 
-    return () => document.removeEventListener("keydown", handleKeydown);
+    return () => window.removeEventListener("keydown", handleKeydown);
   }, []);
 
   const handleClick = (name: string | JSX.Element) => {
-    console.log(currentGuess);
     if (typeof name === "string") {
       if (name === "ENT") {
         addGuess(currentGuess);
@@ -97,7 +98,12 @@ const Keyboard: React.FC<KeyboardProps> = ({
     );
   });
 
-  return <div className={styles.keyboardContainer}>{rowsArr}</div>;
+  return (
+    <div className={styles.keyboardContainer}>
+      <button onClick={() => console.log(guesses)}>test</button>
+      {rowsArr}
+    </div>
+  );
 };
 
 export default Keyboard;

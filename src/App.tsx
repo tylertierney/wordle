@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import GameGrid from "./components/GameGrid/GameGrid";
 import Keyboard from "./components/Keyboard/Keyboard";
 import Navbar from "./components/Navbar/Navbar";
 import { useGame } from "./context/gameContext";
+import { getLetterValue } from "./utils/utils";
 
 function App() {
-  const { gameIsActive, targetWord } = useGame();
+  const { gameIsActive, targetWord, addGuess, addDisabledLetters } = useGame();
   const [currentGuess, setCurrentGuess] = useState("");
-  console.log(targetWord);
 
   return (
     <div className="App">
