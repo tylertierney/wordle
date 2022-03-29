@@ -19,7 +19,6 @@ const Key: React.FC<KeyProps> = ({ name, handleClick, disabled }) => {
   if (disabled) {
     styleProps.backgroundColor = "rgb(255, 255, 255, 0.2)";
     styleProps.opacity = 1;
-    styleProps.cursor = "default";
   }
 
   return (
@@ -27,7 +26,6 @@ const Key: React.FC<KeyProps> = ({ name, handleClick, disabled }) => {
       className={styles.keyBtn}
       style={styleProps}
       onClick={() => handleClick(name)}
-      disabled={disabled}
     >
       {name}
     </button>

@@ -9,6 +9,8 @@ interface ContextInterface {
   gameIsActive: boolean;
   disabledLetters: Set<string>;
   addDisabledLetters: (letter: string) => void;
+  resetGame: () => void;
+  wonTheGame: boolean;
 }
 
 const initial: ContextInterface = {
@@ -18,6 +20,8 @@ const initial: ContextInterface = {
   gameIsActive: true,
   disabledLetters: new Set([]),
   addDisabledLetters: (letter: string) => null,
+  resetGame: () => null,
+  wonTheGame: false,
 };
 
 export const GameContext = createContext(initial);
@@ -29,12 +33,14 @@ const GameProvider = ({ children }: any) => {
   const [disabledLetters, setDisabledLetters] = useState<Set<string>>(
     new Set([])
   );
+  const [wonTheGame, setWonTheGame] = useState<boolean>(false);
 
   useEffect(() => {
-    const possibleWords = words.split("\n");
-    const targetWord =
-      possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    setTargetWord(targetWord);
+    // const possibleWords = words.split("\n");
+    // const targetWord =
+    //   possibleWords[Math.floor(Math.random() * possibleWords.length)];
+    // setTargetWord(targetWord);
+    setTargetWord("abort");
   }, []);
 
   const addGuess = (newGuess: string) => {
@@ -42,6 +48,12 @@ const GameProvider = ({ children }: any) => {
     copyOfGuesses.push(newGuess);
     if (newGuess === targetWord.toUpperCase()) {
       setGameIsActive(false);
+      setWonTheGame(true);
+    } else {
+      if (copyOfGuesses.length > 5) {
+        setGameIsActive(false);
+        setWonTheGame(false);
+      }
     }
     setGuesses(copyOfGuesses);
   };
@@ -52,6 +64,17 @@ const GameProvider = ({ children }: any) => {
     setDisabledLetters(copyOfDisabledLetters);
   };
 
+  const resetGame = () => {
+    const possibleWords = words.split("\n");
+    const targetWord =
+      possibleWords[Math.floor(Math.random() * possibleWords.length)];
+    setTargetWord(targetWord);
+    setDisabledLetters(new Set([]));
+    setGuesses([]);
+    setGameIsActive(true);
+    setWonTheGame(false);
+  };
+
   const ctx: ContextInterface = {
     targetWord,
     guesses,
@@ -59,6 +82,8 @@ const GameProvider = ({ children }: any) => {
     gameIsActive,
     disabledLetters,
     addDisabledLetters,
+    resetGame,
+    wonTheGame,
   };
 
   return <GameContext.Provider value={ctx}>{children}</GameContext.Provider>;

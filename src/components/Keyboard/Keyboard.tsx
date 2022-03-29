@@ -2,8 +2,9 @@ import Key from "../Key/Key";
 import styles from "./Keyboard.module.css";
 import { MdOutlineBackspace } from "react-icons/md";
 import { useGame } from "../../context/gameContext";
-import { getLetterValue } from "../../utils/utils";
+import { checkIfWordExists, getLetterValue } from "../../utils/utils";
 import { useEffect } from "react";
+import { useToast } from "../../context/toastContext";
 
 interface KeyboardProps {
   currentGuess: string;
@@ -14,20 +15,23 @@ const Keyboard: React.FC<KeyboardProps> = ({
   currentGuess,
   setCurrentGuess,
 }) => {
-  const { disabledLetters, addDisabledLetters, addGuess, targetWord, guesses } =
-    useGame();
+  const {
+    disabledLetters,
+    addDisabledLetters,
+    addGuess,
+    targetWord,
+    gameIsActive,
+  } = useGame();
   const alphabet = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
     ["Z", "X", "C", "V", "B", "N", "M"],
   ];
+  const { addToast } = useToast();
 
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
       const uppercaseKey = e.key.toUpperCase();
-      if (disabledLetters.has(uppercaseKey)) {
-        return;
-      }
       if (uppercaseKey === "ENTER") {
         handleClick("ENT");
       } else if (uppercaseKey === "BACKSPACE") {
@@ -40,12 +44,29 @@ const Keyboard: React.FC<KeyboardProps> = ({
     window.addEventListener("keydown", handleKeydown);
 
     return () => window.removeEventListener("keydown", handleKeydown);
-  }, [currentGuess]);
+  }, [currentGuess, gameIsActive]);
+
+  const keysToIgnore = [
+    "META",
+    "CONTROL",
+    "CAPSLOCK",
+    "SHIFT",
+    "ALT",
+    "TAB",
+    "CONTEXTMENU",
+  ];
 
   const handleClick = (name: string | JSX.Element) => {
+    if (!gameIsActive) {
+      return;
+    }
     if (typeof name === "string") {
       if (name === "ENT") {
         if (currentGuess.length < 5) {
+          return;
+        }
+        if (!checkIfWordExists(currentGuess.toLowerCase())) {
+          addToast("Word doesn't exist");
           return;
         }
         addGuess(currentGuess);
@@ -58,6 +79,8 @@ const Keyboard: React.FC<KeyboardProps> = ({
           }
         }
         setCurrentGuess("");
+      } else if (keysToIgnore.includes(name)) {
+        return;
       } else {
         if (currentGuess.length > 4) {
           return;
