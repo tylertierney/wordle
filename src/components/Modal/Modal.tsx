@@ -1,6 +1,6 @@
 import { useGame } from "../../context/gameContext";
 import styles from "./Modal.module.css";
-import { IoMdRefresh } from "react-icons/io";
+import PlayAgainBtn from "../PlayAgainBtn/PlayAgainBtn";
 
 interface ModalProps {
   wonOrLost: boolean;
@@ -53,10 +53,7 @@ const Modal: React.FC<ModalProps> = ({ wonOrLost, setModalShowing }) => {
           )}
         </div>
         <div className={styles.modalFooter}>
-          <button className={styles.playAgainBtn} onClick={() => handleClose()}>
-            Play Again
-            <IoMdRefresh fontSize="1.5rem" strokeWidth={16} />
-          </button>
+          <PlayAgainBtn handleClose={handleClose} />
         </div>
       </div>
     </div>

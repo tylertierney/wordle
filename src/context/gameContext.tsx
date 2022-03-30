@@ -75,7 +75,6 @@ const GameProvider = ({ children }: any) => {
       currentGameState.guesses = copyOfGuesses;
       localStorage.setItem("wordle-history", JSON.stringify(currentGameState));
     }
-    // localStorage.setItem("wordle-history")
   };
 
   const addDisabledLetters = (letter: string) => {
