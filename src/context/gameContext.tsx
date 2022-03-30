@@ -2,6 +2,11 @@ import { useContext, createContext, useEffect, useState } from "react";
 import { Set } from "typescript";
 import { words } from "../dictionary/words-of-the-day";
 
+interface WordleHistoryType {
+  targetWord: string;
+  guesses: string[];
+}
+
 interface ContextInterface {
   targetWord: string;
   guesses: string[];
@@ -36,10 +41,19 @@ const GameProvider = ({ children }: any) => {
   const [wonTheGame, setWonTheGame] = useState<boolean>(false);
 
   useEffect(() => {
-    const possibleWords = words.split("\n");
-    const targetWord =
-      possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    setTargetWord(targetWord);
+    const existingGame = localStorage.getItem("wordle-history");
+    if (existingGame) {
+      const currentGameState: WordleHistoryType = JSON.parse(existingGame);
+      setTargetWord(currentGameState.targetWord);
+      setGuesses(currentGameState.guesses);
+    } else {
+      const possibleWords = words.split("\n");
+      const targetWord =
+        possibleWords[Math.floor(Math.random() * possibleWords.length)];
+      setTargetWord(targetWord);
+      const currentGameState = { targetWord, guesses: [] };
+      localStorage.setItem("wordle-history", JSON.stringify(currentGameState));
+    }
   }, []);
 
   const addGuess = (newGuess: string) => {
@@ -55,6 +69,13 @@ const GameProvider = ({ children }: any) => {
       }
     }
     setGuesses(copyOfGuesses);
+    let wordleHistory: string | null = localStorage.getItem("wordle-history");
+    if (wordleHistory !== null) {
+      let currentGameState: WordleHistoryType = JSON.parse(wordleHistory);
+      currentGameState.guesses = copyOfGuesses;
+      localStorage.setItem("wordle-history", JSON.stringify(currentGameState));
+    }
+    // localStorage.setItem("wordle-history")
   };
 
   const addDisabledLetters = (letter: string) => {
@@ -72,6 +93,10 @@ const GameProvider = ({ children }: any) => {
     setGuesses([]);
     setGameIsActive(true);
     setWonTheGame(false);
+    localStorage.setItem(
+      "wordle-history",
+      JSON.stringify({ targetWord, guesses: [] })
+    );
   };
 
   const ctx: ContextInterface = {
