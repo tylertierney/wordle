@@ -5,7 +5,6 @@ import Keyboard from "./components/Keyboard/Keyboard";
 import Modal from "./components/Modal/Modal";
 import Navbar from "./components/Navbar/Navbar";
 import { useGame } from "./context/gameContext";
-import { getLetterValue } from "./utils/utils";
 
 function App() {
   const { gameIsActive, wonTheGame } = useGame();

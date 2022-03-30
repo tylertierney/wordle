@@ -7,7 +7,7 @@ interface GameGridProps {
 }
 
 const GameGrid: React.FC<GameGridProps> = ({ currentGuess }) => {
-  const { targetWord, guesses } = useGame();
+  const { guesses } = useGame();
 
   let rows = new Array(6).fill(null);
   const currentGuessRowIdx = guesses.length;

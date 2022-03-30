@@ -3,6 +3,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin: 0 0 1rem 0;
+  gap: 5px;
+  padding: 2vh 2vw;
+  flex-grow: 1;
+  width: 100%;
+  max-width: 360px;
+  max-height: 560px;
+  z-index: 0;
 }

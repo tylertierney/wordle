@@ -10,10 +10,6 @@ interface ToastContextType {
   addToast: (toast: string) => void;
 }
 
-// const initialState = {
-//   addToast: () => void
-// }
-
 const ToastContext = createContext<ToastContextType>({ addToast: () => {} });
 
 const ToastContextProvider: React.FC = ({ children }) => {

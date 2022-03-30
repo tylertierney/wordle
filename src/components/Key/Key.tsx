@@ -1,8 +1,5 @@
-import { useGame } from "../../context/gameContext";
 import styles from "./Key.module.css";
 import CSS from "csstype";
-import { getLetterValue } from "../../utils/utils";
-import { useEffect } from "react";
 
 interface KeyProps {
   name: string | JSX.Element;
@@ -13,7 +10,7 @@ interface KeyProps {
 const Key: React.FC<KeyProps> = ({ name, handleClick, disabled }) => {
   let styleProps: CSS.Properties = {};
   if (typeof name != "string" || name === "ENT") {
-    styleProps.padding = "10px 15px";
+    styleProps.padding = "10px 10px";
   }
 
   if (disabled) {

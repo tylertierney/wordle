@@ -1,6 +1,6 @@
 .tile {
-  height: 54px;
-  width: 54px;
+  height: 100%;
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +11,7 @@
 }
 
 .tileInner {
+  height: fit-content;
   position: relative;
   width: 100%;
   height: 100%;
@@ -18,6 +19,10 @@
   transition-timing-function: ease-in-out;
   transition-duration: 0.3s;
   transition-delay: 0s;
+}
+
+.flipAnimation {
+  z-index: -1;
 }
 
 .flipAnimation .tileInner {
@@ -42,8 +47,8 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   border: solid var(--mediumWhite) 2px;
   display: flex;
   justify-content: center;
@@ -58,11 +63,3 @@
   transform: rotateX(180deg);
   background-color: var(--bodyBlue);
 }
-
-/* @media only screen and (max-width: 600px) {
-  .tile {
-    height: 56px;
-    width: 56px;
-    font-size: 2rem;
-  }
-} */

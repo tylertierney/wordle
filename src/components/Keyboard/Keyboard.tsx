@@ -5,6 +5,7 @@ import { useGame } from "../../context/gameContext";
 import { checkIfWordExists, getLetterValue } from "../../utils/utils";
 import { useEffect } from "react";
 import { useToast } from "../../context/toastContext";
+import { keyboardAlphabet } from "../../utils/utils";
 
 interface KeyboardProps {
   currentGuess: string;
@@ -22,29 +23,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
     targetWord,
     gameIsActive,
   } = useGame();
-  const alphabet = [
-    ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-    ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-    ["Z", "X", "C", "V", "B", "N", "M"],
-  ];
   const { addToast } = useToast();
-
-  useEffect(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
-      const uppercaseKey = e.key.toUpperCase();
-      if (uppercaseKey === "ENTER") {
-        handleClick("ENT");
-      } else if (uppercaseKey === "BACKSPACE") {
-        handleClick(<p></p>);
-      } else if (uppercaseKey >= "A" && uppercaseKey <= "Z") {
-        handleClick(uppercaseKey);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeydown);
-
-    return () => window.removeEventListener("keydown", handleKeydown);
-  }, [currentGuess, gameIsActive]);
 
   const keysToIgnore = [
     "META",
@@ -93,7 +72,24 @@ const Keyboard: React.FC<KeyboardProps> = ({
     }
   };
 
-  let rowsArr = alphabet.map((row, idx) => {
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      const uppercaseKey = e.key.toUpperCase();
+      if (uppercaseKey === "ENTER") {
+        handleClick("ENT");
+      } else if (uppercaseKey === "BACKSPACE") {
+        handleClick(<p></p>);
+      } else if (uppercaseKey >= "A" && uppercaseKey <= "Z") {
+        handleClick(uppercaseKey);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeydown);
+
+    return () => window.removeEventListener("keydown", handleKeydown);
+  }, [currentGuess, gameIsActive]);
+
+  let rowsArr = keyboardAlphabet.map((row, idx) => {
     return (
       <div className={styles.keyboardRow} key={idx}>
         {idx === 2 && (
@@ -115,7 +111,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
         })}
         {idx === 2 && (
           <Key
-            name={<MdOutlineBackspace />}
+            name={<MdOutlineBackspace fontSize="1.25rem" />}
             handleClick={handleClick}
             disabled={false}
           />

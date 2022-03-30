@@ -4,12 +4,16 @@
   align-items: center;
   flex-direction: column;
   gap: 4px;
-  padding: 0.3rem 1rem 1rem 1rem;
+  padding: 0.3rem 0.3rem 1rem 0.3rem;
+  width: 100%;
+  max-width: 650px;
+  z-index: 0;
 }
 
 .keyboardRow {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  width: 100%;
 }

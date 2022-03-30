@@ -36,11 +36,10 @@ const GameProvider = ({ children }: any) => {
   const [wonTheGame, setWonTheGame] = useState<boolean>(false);
 
   useEffect(() => {
-    // const possibleWords = words.split("\n");
-    // const targetWord =
-    //   possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    // setTargetWord(targetWord);
-    setTargetWord("abort");
+    const possibleWords = words.split("\n");
+    const targetWord =
+      possibleWords[Math.floor(Math.random() * possibleWords.length)];
+    setTargetWord(targetWord);
   }, []);
 
   const addGuess = (newGuess: string) => {

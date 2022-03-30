@@ -9,7 +9,7 @@ interface GridRowProps {
 }
 
 const GridRow: React.FC<GridRowProps> = ({ word, checkLetterValues }) => {
-  const { targetWord, addDisabledLetters } = useGame();
+  const { targetWord } = useGame();
   let tiles = new Array(5).fill("");
   let wordAsArr: string[] = [];
   if (word) {

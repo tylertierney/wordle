@@ -55,7 +55,7 @@ const Modal: React.FC<ModalProps> = ({ wonOrLost, setModalShowing }) => {
         <div className={styles.modalFooter}>
           <button className={styles.playAgainBtn} onClick={() => handleClose()}>
             Play Again
-            <IoMdRefresh fontSize="1.5rem" />
+            <IoMdRefresh fontSize="1.5rem" strokeWidth={16} />
           </button>
         </div>
       </div>

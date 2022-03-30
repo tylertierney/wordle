@@ -20,8 +20,7 @@
 
 body {
   background-color: var(--bodyBlue);
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   margin: 0;
 }

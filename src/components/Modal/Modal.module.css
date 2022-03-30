@@ -6,6 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 .modalContainer {
@@ -14,7 +15,7 @@
   min-width: 300px;
   min-height: 60%;
   max-height: 80%;
-  background-color: var(--darkerBlue);
+  background-color: #1e272d;
   border-radius: 10px;
   box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.6);
   display: flex;
@@ -65,6 +66,7 @@
   font-size: 1.5rem;
   border: solid var(--mediumWhite) 2px;
   padding: 10px 16px;
+  text-transform: uppercase;
 }
 
 .modalFooter {
