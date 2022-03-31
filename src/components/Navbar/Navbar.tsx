@@ -9,7 +9,14 @@ const Navbar: React.FC = () => {
     <div className={styles.navContainer}>
       <h3 className={styles.title}>Wordle</h3>
       {!gameIsActive && (
-        <PlayAgainBtn props={{ position: "absolute", right: "1rem" }} />
+        <PlayAgainBtn
+          props={{
+            position: "absolute",
+            right: "0",
+            height: "100%",
+            borderRadius: "0px",
+          }}
+        />
       )}
     </div>
   );
