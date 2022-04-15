@@ -1,10 +1,11 @@
 import { useContext, createContext, useEffect, useState } from "react";
-import { Set } from "typescript";
 import { words } from "../dictionary/words-of-the-day";
+import { updateLocalStorage } from "../utils/utils";
 
-interface WordleHistoryType {
+export interface WordleHistoryType {
   targetWord: string;
   guesses: string[];
+  disabledLetters: string[];
 }
 
 interface ContextInterface {
@@ -46,12 +47,17 @@ const GameProvider = ({ children }: any) => {
       const currentGameState: WordleHistoryType = JSON.parse(existingGame);
       setTargetWord(currentGameState.targetWord);
       setGuesses(currentGameState.guesses);
+      setDisabledLetters(new Set<string>(currentGameState.disabledLetters));
     } else {
       const possibleWords = words.split("\n");
       const targetWord =
         possibleWords[Math.floor(Math.random() * possibleWords.length)];
       setTargetWord(targetWord);
-      const currentGameState = { targetWord, guesses: [] };
+      const currentGameState = {
+        targetWord,
+        guesses: [],
+        disabledLetters: [],
+      };
       localStorage.setItem("wordle-history", JSON.stringify(currentGameState));
     }
   }, []);
@@ -69,18 +75,14 @@ const GameProvider = ({ children }: any) => {
       }
     }
     setGuesses(copyOfGuesses);
-    let wordleHistory: string | null = localStorage.getItem("wordle-history");
-    if (wordleHistory !== null) {
-      let currentGameState: WordleHistoryType = JSON.parse(wordleHistory);
-      currentGameState.guesses = copyOfGuesses;
-      localStorage.setItem("wordle-history", JSON.stringify(currentGameState));
-    }
+    updateLocalStorage("guesses", copyOfGuesses);
   };
 
   const addDisabledLetters = (letter: string) => {
     let copyOfDisabledLetters = disabledLetters;
     copyOfDisabledLetters.add(letter);
     setDisabledLetters(copyOfDisabledLetters);
+    updateLocalStorage("disabledLetters", Array.from(copyOfDisabledLetters));
   };
 
   const resetGame = () => {
@@ -94,7 +96,7 @@ const GameProvider = ({ children }: any) => {
     setWonTheGame(false);
     localStorage.setItem(
       "wordle-history",
-      JSON.stringify({ targetWord, guesses: [] })
+      JSON.stringify({ targetWord, guesses: [], disabledLetters: [] })
     );
   };
 

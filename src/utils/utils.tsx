@@ -1,4 +1,17 @@
 import { words } from "../dictionary/words-of-the-day";
+import { WordleHistoryType } from "../context/gameContext";
+
+export const updateLocalStorage = (
+  key: "guesses" | "disabledLetters",
+  newValue: string[]
+) => {
+  let wordleHistory: string | null = localStorage.getItem("wordle-history");
+  if (wordleHistory !== null) {
+    let currentGameState: WordleHistoryType = JSON.parse(wordleHistory);
+    currentGameState[key] = newValue;
+    localStorage.setItem("wordle-history", JSON.stringify(currentGameState));
+  }
+};
 
 export const getLetterValue = (letter: string, word: string, index: number) => {
   let result = "var(--darkerBlue)";
